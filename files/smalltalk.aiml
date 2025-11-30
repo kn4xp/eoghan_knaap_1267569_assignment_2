@@ -1,0 +1,20 @@
+<aiml>
+
+  <category>
+    <pattern>HOW ARE YOU</pattern>
+    <template>
+      I am a simple training assistant.  
+      I can not lift weights, but I can plan them.  
+      How are you, <get name="username"/>?
+    </template>
+  </category>
+
+  <category>
+    <pattern>BYE</pattern>
+    <template>
+      Goodbye <get name="username"/>.  
+      Do not forget to stay active.
+    </template>
+  </category>
+
+</aiml>

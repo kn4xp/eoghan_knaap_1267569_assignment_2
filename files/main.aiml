@@ -1,0 +1,329 @@
+<aiml>
+
+  <!-- Greeting with RANDOM -->
+  <category>
+    <pattern>HI</pattern>
+    <template>
+      <random>
+        <li>Hello!</li>
+        <li>Hi! Welcome to PeakPerformanceBot.</li>
+        <li>Hey! Ready to talk training?</li>
+      </random>
+      What is your name?
+    </template>
+  </category>
+
+  <!-- Redirect HELLO to HI -->
+  <category>
+    <pattern>HELLO</pattern>
+    <template>
+      <srai>HI</srai>
+    </template>
+  </category>
+
+  <!-- Store user name -->
+  <category>
+    <pattern>MY NAME IS *</pattern>
+    <template>
+      Nice to meet you,
+      <think><set name="username"><star/></set></think>
+      <get name="username"/>.  
+      Are you a beginner, intermediate, or advanced trainee?
+    </template>
+  </category>
+
+  <!-- Set level -->
+  <category>
+    <pattern>I AM A BEGINNER</pattern>
+    <template>
+      <think><set name="level">beginner</set></think>
+      Ok, you are a beginner.  
+      What is your main goal? For example: build muscle, lose fat, get fitter.
+    </template>
+  </category>
+
+  <category>
+    <pattern>I AM AN INTERMEDIATE</pattern>
+    <template>
+      <think><set name="level">intermediate</set></think>
+      Ok, you are an intermediate trainee.  
+      What is your main goal? For example: build muscle, lose fat, get fitter.
+    </template>
+  </category>
+
+  <category>
+    <pattern>I AM ADVANCED</pattern>
+    <template>
+      <think><set name="level">advanced</set></think>
+      Ok, you are advanced.  
+      What is your main goal? For example: build muscle, lose fat, get fitter.
+    </template>
+  </category>
+
+  <!-- Direct goal answers (so user can just say "build muscle") -->
+  <category>
+    <pattern>BUILD MUSCLE</pattern>
+    <template>
+      Nice, building muscle is a solid goal.  
+      <think><set name="goal">build muscle</set></think>
+      How many days per week can you train?
+    </template>
+  </category>
+
+  <category>
+    <pattern>LOSE FAT</pattern>
+    <template>
+      Good goal — fat loss comes from consistency.  
+      <think><set name="goal">lose fat</set></think>
+      How many days per week can you train?
+    </template>
+  </category>
+
+  <category>
+    <pattern>GET FITTER</pattern>
+    <template>
+      Love it — general fitness gives the best all-round benefits.  
+      <think><set name="goal">get fitter</set></think>
+      How many days per week can you train?
+    </template>
+  </category>
+
+  <category>
+    <pattern>LOSE WEIGHT</pattern>
+    <template>
+      Got it — you want to lose weight.  
+      <think><set name="goal">lose weight</set></think>
+      How many days per week can you train?
+    </template>
+  </category>
+
+  <category>
+    <pattern>GAIN WEIGHT</pattern>
+    <template>
+      Ok, goal is gaining weight.  
+      <think><set name="goal">gain weight</set></think>
+      How many days per week can you train?
+    </template>
+  </category>
+
+  <category>
+    <pattern>GET STRONGER</pattern>
+    <template>
+      Perfect — strength training is the way.  
+      <think><set name="goal">get stronger</set></think>
+      How many days per week can you train?
+    </template>
+  </category>
+
+  <category>
+    <pattern>GET TONED</pattern>
+    <template>
+      Ok — your goal is toning up.  
+      <think><set name="goal">get toned</set></think>
+      How many days per week can you train?
+    </template>
+  </category>
+
+  <!-- Generic goal capture -->
+  <category>
+    <pattern>MY GOAL IS *</pattern>
+    <template>
+      <think><set name="goal"><star/></set></think>
+      Got it, your goal is: <get name="goal"/>.  
+      How many days per week can you train?
+    </template>
+  </category>
+
+  <!-- Store days per week -->
+  <category>
+    <pattern>I CAN TRAIN * DAYS</pattern>
+    <template>
+      <think><set name="days"><star/></set></think>
+      Ok, <get name="days"/> days per week.  
+      When you are ready, say "WORKOUTS" and I will suggest a plan.
+    </template>
+  </category>
+
+  <!-- Ask back stored info -->
+  <category>
+    <pattern>WHAT IS MY GOAL</pattern>
+    <template>
+      <condition name="goal">
+        <li>Your goal is: <get name="goal"/>.</li>
+        <li>I do not know your goal yet. Tell me by saying: "My goal is ..."</li>
+      </condition>
+    </template>
+  </category>
+
+  <category>
+    <pattern>HOW MANY DAYS CAN I TRAIN</pattern>
+    <template>
+      <condition name="days">
+        <li>You told me you can train <get name="days"/> days per week.</li>
+        <li>I do not know yet. Tell me by saying: "I can train X days".</li>
+      </condition>
+    </template>
+  </category>
+
+  <category>
+    <pattern>WHAT IS MY LEVEL</pattern>
+    <template>
+      <condition name="level">
+        <li value="beginner">You are a beginner.</li>
+        <li value="intermediate">You are an intermediate trainee.</li>
+        <li value="advanced">You are an advanced trainee.</li>
+        <li>I do not know your level yet.</li>
+      </condition>
+    </template>
+  </category>
+
+  <!-- Mood stuff -->
+  <category>
+    <pattern>I AM FEELING GOOD</pattern>
+    <template>
+      <think><set name="mood">good</set></think>
+      Nice, good energy. Say "WORKOUTS" and I will suggest something.
+    </template>
+  </category>
+
+  <category>
+    <pattern>I AM FEELING BAD</pattern>
+    <template>
+      <think><set name="mood">bad</set></think>
+      Sorry to hear that. I can give you a light workout if you want.  
+      Say "WORKOUTS".
+    </template>
+  </category>
+
+  <category>
+    <pattern>HOW ARE YOU FEELING</pattern>
+    <template>
+      <condition name="mood">
+        <li value="good">I am feeling good. Training talk always helps.</li>
+        <li value="bad">Not great, but planning workouts helps.</li>
+        <li>I am not sure, I am only a training bot.</li>
+      </condition>
+    </template>
+  </category>
+
+  <!-- "What can you do" / help -->
+  <category>
+    <pattern>WHAT CAN YOU DO</pattern>
+    <template>
+      I am a simple training bot.  
+      I can store your level, goal, and how many days you can train,  
+      and then suggest full-body or split workouts based on that.  
+      Tell me your level or say "WORKOUTS" to get started.
+    </template>
+  </category>
+
+  <category>
+    <pattern>HELP</pattern>
+    <template>
+      I can help you with training structure.  
+      Start by telling me: "I am a beginner", "I am an intermediate", or "I am advanced".  
+      Then tell me your goal, how many days you can train, and say "WORKOUTS".
+    </template>
+  </category>
+
+  <!-- Tired / no time / skipped -->
+  <category>
+    <pattern>I AM TIRED</pattern>
+    <template>
+      Fair enough, that happens.  
+      Even a short 10–15 minute session is better than nothing.  
+      If you want a light suggestion, say "WORKOUTS" and then choose FULL BODY.
+    </template>
+  </category>
+
+  <category>
+    <pattern>I HAVE NO TIME</pattern>
+    <template>
+      Time is always tight.  
+      We can still fit short sessions into your week.  
+      Tell me how many days you can realistically train by saying:  
+      "I can train X days".
+    </template>
+  </category>
+
+  <category>
+    <pattern>I SKIPPED MY WORKOUT</pattern>
+    <template>
+      It happens. One skipped session does not ruin your progress.  
+      Just get back on track.  
+      If you want to restart, say "WORKOUTS" and we plan again.
+    </template>
+  </category>
+
+  <!-- Switch into workout topic -->
+  <category>
+    <pattern>WORKOUTS</pattern>
+    <template>
+      <think><set name="topic">workouts</set></think>
+      Ok, workout mode on.  
+      Do you like gym training?
+    </template>
+  </category>
+
+  <!-- Question so we can use <that> in workouts.aiml -->
+  <category>
+    <pattern>WHAT ABOUT GYM</pattern>
+    <template>
+      Do you like gym training?
+    </template>
+  </category>
+
+  <!-- Summary of stored data -->
+  <category>
+    <pattern>SUMMARY</pattern>
+    <template>
+      Here is what I know about you:<br/>
+      Name: 
+      <condition name="username">
+        <li><get name="username"/></li>
+      </condition><br/>
+      Level: 
+      <condition name="level">
+        <li value="beginner">beginner</li>
+        <li value="intermediate">intermediate</li>
+        <li value="advanced">advanced</li>
+        <li>unknown</li>
+      </condition><br/>
+      Goal: 
+      <condition name="goal">
+        <li><get name="goal"/></li>
+        <li>unknown</li>
+      </condition><br/>
+      Days per week: 
+      <condition name="days">
+        <li><get name="days"/></li>
+        <li>unknown</li>
+      </condition>
+    </template>
+  </category>
+
+  <!-- Who am I -->
+  <category>
+    <pattern>WHO AM I</pattern>
+    <template>
+      <condition name="username">
+        <li>You are <get name="username"/>.</li>
+        <li>I do not know yet, you did not tell me your name.</li>
+      </condition>
+    </template>
+  </category>
+
+  <!-- Global fallback with RANDOM -->
+  <category>
+    <pattern>*</pattern>
+    <template>
+      <random>
+        <li>I am not sure how to answer that yet. Ask me about your level, goal, or days per week.</li>
+        <li>I mostly talk about training. Tell me: are you a beginner, intermediate, or advanced?</li>
+        <li>If you want a plan, tell me your level and goal, or just say "WORKOUTS".</li>
+        <li>You can also say "SUMMARY" and I will show what I know about you.</li>
+      </random>
+    </template>
+  </category>
+
+</aiml>

@@ -1,0 +1,242 @@
+<aiml>
+
+  <topic name="workouts">
+
+    <!-- YES/NO: replying to "Do you like gym training?" -->
+    <category>
+      <pattern>YES</pattern>
+      <that>Do you like gym training?</that>
+      <template>
+        Nice, I like gym training too.  
+        Do you prefer FULL BODY sessions or a SPLIT routine?
+      </template>
+    </category>
+
+    <category>
+      <pattern>NO</pattern>
+      <that>Do you like gym training?</that>
+      <template>
+        No worries. We can still plan simple bodyweight or running sessions.  
+        Do you prefer FULL BODY training or a SPLIT routine?
+      </template>
+    </category>
+
+    <!-- FULL BODY / SPLIT choice (no <that>, so they always work in this topic) -->
+    <category>
+      <pattern>FULL BODY</pattern>
+      <template>
+        Ok, FULL BODY it is.  
+        <condition name="level">
+          <li value="beginner">
+            For a beginner full body routine, try 3 sessions per week:
+            squats, push ups or bench press, rows, and planks.
+          </li>
+          <li value="intermediate">
+            For an intermediate full body routine, 3 to 4 sessions per week
+            with heavier squats, bench press, rows, and some isolation work.
+          </li>
+          <li value="advanced">
+            As an advanced trainee, you can still use full body 3 times per week
+            with heavier compound lifts and some extra volume.
+          </li>
+          <li>
+            I do not know your level yet. Tell me by saying:
+            "I am a beginner", "I am an intermediate", or "I am advanced".
+          </li>
+        </condition>
+        If you want a short summary based only on your level, say: "GIVE ME A WORKOUT".
+      </template>
+    </category>
+
+    <category>
+      <pattern>SPLIT</pattern>
+      <template>
+        Ok, SPLIT it is.  
+        <condition name="level">
+          <li value="beginner">
+            As a beginner, a simple upper and lower body split
+            3 to 4 days per week is enough.
+          </li>
+          <li value="intermediate">
+            As an intermediate trainee, an upper/lower split or push/pull/legs
+            across 4 days per week works well.
+          </li>
+          <li value="advanced">
+            As an advanced trainee, a push/pull/legs style split
+            over 5 days per week can give you more volume.
+          </li>
+          <li>
+            I do not know your level yet. Tell me by saying:
+            "I am a beginner", "I am an intermediate", or "I am advanced".
+          </li>
+        </condition>
+        If you want a short summary based only on your level, say: "GIVE ME A WORKOUT".
+      </template>
+    </category>
+
+    <!-- Main workout suggestion based on level only -->
+    <category>
+      <pattern>GIVE ME A WORKOUT</pattern>
+      <template>
+        <condition name="level">
+          <li value="beginner">
+            For your level, you can try: 3 full body sessions per week
+            with light weights and focus on technique.
+          </li>
+          <li value="intermediate">
+            For your level, you can try: 4 training days per week
+            with an upper/lower split.
+          </li>
+          <li value="advanced">
+            For your level, you can try: 5 training days per week
+            with a push/pull/legs style split.
+          </li>
+          <li>
+            I do not know your level yet.
+            Please say "I am a beginner", "I am an intermediate", or "I am advanced".
+          </li>
+        </condition>
+        If you want to focus on one body part, say for example:
+        "I WANT TO TRAIN LEGS".
+      </template>
+    </category>
+
+    <!-- Too hard / too easy / another workout -->
+    <category>
+      <pattern>TOO HARD</pattern>
+      <template>
+        Ok, we can make it easier.  
+        <condition name="level">
+          <li value="beginner">
+            For a beginner, drop one set per exercise and slow down the tempo.
+          </li>
+          <li value="intermediate">
+            For an intermediate trainee, you can reduce volume slightly
+            or keep the same plan with lighter weights.
+          </li>
+          <li value="advanced">
+            Even advanced lifters have tough days. Reduce the weight and keep the structure.
+          </li>
+          <li>
+            I do not know your level yet. Tell me your level first.
+          </li>
+        </condition>
+        If you want, say "GIVE ME A WORKOUT" again for a short summary.
+      </template>
+    </category>
+
+    <category>
+      <pattern>THIS IS TOO HARD</pattern>
+      <template>
+        <srai>TOO HARD</srai>
+      </template>
+    </category>
+
+    <category>
+      <pattern>TOO EASY</pattern>
+      <template>
+        Good problem to have.  
+        <condition name="level">
+          <li value="beginner">
+            If it feels too easy as a beginner, add a small amount of weight or one extra set.
+          </li>
+          <li value="intermediate">
+            As an intermediate trainee, you can add volume or intensity gradually.
+          </li>
+          <li value="advanced">
+            As an advanced trainee, you probably know your limits — add volume carefully and track fatigue.
+          </li>
+          <li>
+            I do not know your level yet. Tell me your level first.
+          </li>
+        </condition>
+        You can also say "GIVE ME A WORKOUT" for a quick baseline.
+      </template>
+    </category>
+
+    <category>
+      <pattern>GIVE ME ANOTHER WORKOUT</pattern>
+      <template>
+        I keep the same general structure, but you can swap exercises you do not like  
+        for similar movements. Here is the summary again:  
+        <srai>GIVE ME A WORKOUT</srai>
+      </template>
+    </category>
+
+    <!-- Favourite exercise using STAR + THINK + SET/GET -->
+    <category>
+      <pattern>MY FAVOURITE EXERCISE IS *</pattern>
+      <template>
+        <think><set name="favexercise"><star/></set></think>
+        <get name="favexercise"/> is a solid exercise.
+        I will try to remember that.
+      </template>
+    </category>
+
+    <category>
+      <pattern>WHAT IS MY FAVOURITE EXERCISE</pattern>
+      <template>
+        <condition name="favexercise">
+          <li>Your favourite exercise is <get name="favexercise"/>.</li>
+          <li>You have not told me your favourite exercise yet.</li>
+        </condition>
+      </template>
+    </category>
+
+    <!-- Use SET of body parts -->
+    <category>
+      <pattern>I WANT TO TRAIN <set>bodypart</set></pattern>
+      <template>
+        That is a good choice to train.
+        For <star/>, use the same sets and reps as in your level plan
+        from "GIVE ME A WORKOUT".
+      </template>
+    </category>
+
+    <!-- Shortcuts so "LEGS", "CHEST", "BACK" alone still work -->
+    <category>
+      <pattern>LEGS</pattern>
+      <template>
+        <srai>I WANT TO TRAIN LEGS</srai>
+      </template>
+    </category>
+
+    <category>
+      <pattern>CHEST</pattern>
+      <template>
+        <srai>I WANT TO TRAIN CHEST</srai>
+      </template>
+    </category>
+
+    <category>
+      <pattern>BACK</pattern>
+      <template>
+        <srai>I WANT TO TRAIN BACK</srai>
+      </template>
+    </category>
+
+    <!-- Simple MAP usage for assignment -->
+    <category>
+      <pattern>TEST MAP *</pattern>
+      <template>
+        Map test result: <map name="level2plan"><star/></map>
+      </template>
+    </category>
+
+    <!-- Default inside workouts topic -->
+    <category>
+      <pattern>*</pattern>
+      <template>
+        In workout mode you can say things like:
+        "GIVE ME A WORKOUT",
+        "FULL BODY",
+        "SPLIT",
+        "LEGS",
+        or "MY FAVOURITE EXERCISE IS squats".
+      </template>
+    </category>
+
+  </topic>
+
+</aiml>
+
